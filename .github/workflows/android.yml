@@ -19,10 +19,12 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
+      # 【改动 1】构建目标从 :ltw 改为 :wrapper，产出 APK 而非 AAR
       run: ./gradlew :wrapper:assembleRelease
-    - name: Upload APK
+    - name: Upload APK   # 【改动 2】步骤名从 Upload AAR 改为 Upload APK
       uses: actions/upload-artifact@v4.6.0
       with:
-         name: output-apk
+         name: output-apk   # 【改动 3】产物名从 output-aar 改为 output-apk
+         # 【改动 4】路径从 AAR 输出目录改为 APK 输出目录，用通配符匹配文件名
          path: wrapper/build/outputs/apk/release/*.apk
          if-no-files-found: error
